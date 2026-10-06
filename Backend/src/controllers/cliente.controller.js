@@ -2,9 +2,11 @@ const clienteService = require('../services/cliente.service');
 
 
 const crear = async (req, res, next) => {
+
     try {
 
-        const cliente = await clienteService.crear(req.body);
+        const cliente =
+            await clienteService.crear(req.body);
 
         res.status(201).json({
             ok: true,
@@ -13,15 +15,18 @@ const crear = async (req, res, next) => {
         });
 
     } catch (error) {
+
         next(error);
     }
 };
 
 
 const obtenerTodos = async (req, res, next) => {
+
     try {
 
-        const clientes = await clienteService.obtenerTodos();
+        const clientes =
+            await clienteService.obtenerTodos();
 
         res.status(200).json({
             ok: true,
@@ -29,25 +34,32 @@ const obtenerTodos = async (req, res, next) => {
         });
 
     } catch (error) {
+
         next(error);
     }
 };
 
 
 const obtenerPorId = async (req, res, next) => {
+
     try {
 
-        const id_cliente = Number(req.params.id);
+        const id_cliente =
+            Number(req.params.id);
 
-        if (isNaN(id_cliente)) {
+
+        if (!Number.isInteger(id_cliente) || id_cliente <= 0) {
+
             return res.status(400).json({
                 ok: false,
                 message: 'El ID del cliente no es válido'
             });
         }
 
+
         const cliente =
             await clienteService.obtenerPorId(id_cliente);
+
 
         res.status(200).json({
             ok: true,
@@ -55,28 +67,35 @@ const obtenerPorId = async (req, res, next) => {
         });
 
     } catch (error) {
+
         next(error);
     }
 };
 
 
 const actualizar = async (req, res, next) => {
+
     try {
 
-        const id_cliente = Number(req.params.id);
+        const id_cliente =
+            Number(req.params.id);
 
-        if (isNaN(id_cliente)) {
+
+        if (!Number.isInteger(id_cliente) || id_cliente <= 0) {
+
             return res.status(400).json({
                 ok: false,
                 message: 'El ID del cliente no es válido'
             });
         }
 
+
         const cliente =
             await clienteService.actualizar(
                 id_cliente,
                 req.body
             );
+
 
         res.status(200).json({
             ok: true,
@@ -85,25 +104,32 @@ const actualizar = async (req, res, next) => {
         });
 
     } catch (error) {
+
         next(error);
     }
 };
 
 
 const eliminar = async (req, res, next) => {
+
     try {
 
-        const id_cliente = Number(req.params.id);
+        const id_cliente =
+            Number(req.params.id);
 
-        if (isNaN(id_cliente)) {
+
+        if (!Number.isInteger(id_cliente) || id_cliente <= 0) {
+
             return res.status(400).json({
                 ok: false,
                 message: 'El ID del cliente no es válido'
             });
         }
 
+
         const cliente =
             await clienteService.eliminar(id_cliente);
+
 
         res.status(200).json({
             ok: true,
@@ -112,6 +138,7 @@ const eliminar = async (req, res, next) => {
         });
 
     } catch (error) {
+
         next(error);
     }
 };

@@ -1,6 +1,8 @@
 const { sql, poolConnect } = require('../config/database');
 
+
 const crear = async (cliente) => {
+
     const pool = await poolConnect;
 
     const result = await pool.request()
@@ -15,6 +17,7 @@ const crear = async (cliente) => {
 
 
 const obtenerTodos = async () => {
+
     const pool = await poolConnect;
 
     const result = await pool.request()
@@ -25,6 +28,7 @@ const obtenerTodos = async () => {
 
 
 const obtenerPorId = async (id_cliente) => {
+
     const pool = await poolConnect;
 
     const result = await pool.request()
@@ -36,6 +40,7 @@ const obtenerPorId = async (id_cliente) => {
 
 
 const actualizar = async (id_cliente, cliente) => {
+
     const pool = await poolConnect;
 
     const result = await pool.request()
@@ -44,6 +49,7 @@ const actualizar = async (id_cliente, cliente) => {
         .input('nit', sql.VarChar(20), cliente.nit || null)
         .input('telefono', sql.VarChar(20), cliente.telefono || null)
         .input('email', sql.VarChar(100), cliente.email || null)
+        .input('activo', sql.Bit, cliente.activo)
         .execute('sp_cliente_actualizar');
 
     return result.recordset[0];
@@ -51,6 +57,7 @@ const actualizar = async (id_cliente, cliente) => {
 
 
 const eliminar = async (id_cliente) => {
+
     const pool = await poolConnect;
 
     const result = await pool.request()
