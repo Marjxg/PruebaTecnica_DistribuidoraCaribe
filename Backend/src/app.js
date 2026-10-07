@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const clienteRoutes = require('./routes/cliente.routes');
+const authRoutes = require('./routes/auth.routes');
 const errorMiddleware = require('./middlewares/error.middleware');
 
 const app = express();
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
     })
 })
 app.use('/api/clientes', clienteRoutes);
+app.use('/api/auth', authRoutes);
 app.use(errorMiddleware);
 
 

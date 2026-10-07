@@ -1,22 +1,26 @@
 const clienteService = require('../services/cliente.service');
 
 
-const crear = async (req, res, next) => {
+const crear = async (req, res) => {
 
     try {
 
-        const cliente =
+        const resultado =
             await clienteService.crear(req.body);
 
         res.status(201).json({
-            ok: true,
-            message: 'Cliente creado correctamente',
-            data: cliente
+            success: true,
+            data: resultado
         });
 
     } catch (error) {
 
-        next(error);
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
     }
 };
 

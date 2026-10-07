@@ -1,4 +1,4 @@
-create database db_ventas;
+eate database db_ventas;
 go
 use db_ventas;
 go
@@ -183,5 +183,75 @@ BEGIN
         activo
     FROM cliente
     WHERE id_cliente = @id_cliente;
+END;
+GO
+
+USE db_ventas;
+GO
+
+ALTER TABLE cliente
+ADD password_hash VARCHAR(255) NULL;
+GO
+ALTER TABLE cliente
+ALTER COLUMN password_hash VARCHAR(255) NOT NULL;
+GO
+
+CREATE UNIQUE INDEX UX_cliente_email
+ON cliente(email)
+WHERE email IS NOT NULL;
+GO
+
+
+CREATE OR ALTER PROCEDURE sp_cliente_crear
+    @nombre        VARCHAR(100),
+    @nit           VARCHAR(20) = NULL,
+    @telefono      VARCHAR(20) = NULL,
+    @email         VARCHAR(100) = NULL,
+    @password_hash VARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO cliente (
+        nombre,
+        nit,
+        telefono,
+        email,
+        password_hash
+    )
+    VALUES (
+        @nombre,
+        @nit,
+        @telefono,
+        @email,
+        @password_hash
+    );
+
+    SELECT
+        id_cliente,
+        nombre,
+        nit,
+        telefono,
+        email,
+        activo
+    FROM cliente
+    WHERE id_cliente = SCOPE_IDENTITY();
+END;
+GO
+
+CREATE OR ALTER PROCEDURE sp_cliente_login
+    @email VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        id_cliente,
+        nombre,
+        email,
+        password_hash,
+        activo
+    FROM cliente
+    WHERE email = @email;
 END;
 GO

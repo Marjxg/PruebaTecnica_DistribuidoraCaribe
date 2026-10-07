@@ -1,9 +1,24 @@
 import {
+    obtenerToken,
+    cerrarSesion
+} from './api.js';
+
+import {
     cargarClientes,
     abrirModalNuevo,
     cerrarModal
 } from './cliente.js';
 
+const token =
+    obtenerToken();
+
+if (!token) {
+
+    window.location.href =
+        './login.html';
+
+
+}
 
 const btnNuevoCliente =
     document.getElementById(
@@ -20,16 +35,10 @@ const btnCancelar =
         'btnCancelar'
     );
 
-
-/* Nuevo cliente */
-
 btnNuevoCliente.addEventListener(
     'click',
     abrirModalNuevo
 );
-
-
-/* Cerrar modal */
 
 btnCerrarModal.addEventListener(
     'click',
@@ -41,10 +50,23 @@ btnCancelar.addEventListener(
     cerrarModal
 );
 
-
-/* Cargar clientes al iniciar */
-
 document.addEventListener(
     'DOMContentLoaded',
     cargarClientes
+);
+
+const btnCerrarSesion =
+    document.getElementById('btnCerrarSesion');
+
+
+btnCerrarSesion.addEventListener(
+    'click',
+    () => {
+
+        cerrarSesion();
+
+        window.location.href =
+            './login.html';
+
+    }
 );

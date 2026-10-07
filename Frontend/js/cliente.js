@@ -40,6 +40,8 @@ const email =
 const activo =
     document.getElementById('activo');
 
+const password =
+    document.getElementById('password');
 
 
 
@@ -167,10 +169,17 @@ export const abrirModalNuevo = () => {
     modalTitulo.textContent =
         'Nuevo cliente';
 
+    password.required = true;
+
+    document
+        .getElementById('grupoPassword')
+        .classList.remove('hidden');
+
     modalCliente.classList.remove('hidden');
 
     nombre.focus();
 };
+
 
 const abrirModalEditar = async (id) => {
 
@@ -179,46 +188,41 @@ const abrirModalEditar = async (id) => {
         const response =
             await obtenerCliente(id);
 
-
         const cliente =
             response.data;
-
 
         idCliente.value =
             cliente.id_cliente;
 
-
         nombre.value =
             cliente.nombre;
-
 
         nit.value =
             cliente.nit ?? '';
 
-
         telefono.value =
             cliente.telefono ?? '';
-
 
         email.value =
             cliente.email ?? '';
 
-
         activo.value =
             cliente.activo ? '1' : '0';
 
+        password.value = '';
+
+        password.required = false;
+
+        document
+            .getElementById('grupoPassword')
+            .classList.add('hidden');
 
         modalTitulo.textContent =
             'Editar cliente';
 
-
-        modalCliente.classList.remove(
-            'hidden'
-        );
-
+        modalCliente.classList.remove('hidden');
 
         nombre.focus();
-
 
     } catch (error) {
 
@@ -228,6 +232,7 @@ const abrirModalEditar = async (id) => {
         );
     }
 };
+
 
 
 const guardarCliente = async (event) => {
@@ -249,10 +254,13 @@ const guardarCliente = async (event) => {
         email:
             email.value.trim(),
 
+        password:
+            password.value,
+
         activo:
             activo.value === '1'
-
     };
+
 
 
     try {
@@ -392,6 +400,8 @@ const limpiarFormulario = () => {
     formCliente.reset();
 
     idCliente.value = '';
+
+    password.required = false;
 };
 
 const mostrarMensaje = (

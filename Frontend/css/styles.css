@@ -339,3 +339,100 @@ tbody tr:hover {
     background-color: #fee2e2;
     color: #991b1b;
 }
+/* =========================
+   HEADER Y NAVEGACIÓN
+========================= */
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Menú */
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    margin-top: 20px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.nav-link {
+    display: block;
+
+    padding: 12px 18px;
+
+    color: rgba(255, 255, 255, 0.8);
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    border-bottom: 3px solid transparent;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: white;
+
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.nav-link.active {
+    color: white;
+
+    background-color: rgba(255, 255, 255, 0.08);
+
+    border-bottom-color: #60a5fa;
+}
+
+
+/* Botón cerrar sesión dentro del header */
+
+.header .btn-secondary {
+    background-color: transparent;
+
+    color: white;
+
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.header .btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+
+    border-color: white;
+}
+
+
+/* Responsive */
+
+@media (max-width: 700px) {
+
+    .header-top {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .header .btn-secondary {
+        width: 100%;
+    }
+
+    .nav {
+        overflow-x: auto;
+    }
+
+    .nav-link {
+        white-space: nowrap;
+    }
+}

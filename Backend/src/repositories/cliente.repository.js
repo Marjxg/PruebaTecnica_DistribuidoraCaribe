@@ -1,4 +1,5 @@
-const { sql, poolConnect } = require('../config/database');
+const { sql, poolConnect } =
+    require('../config/database');
 
 
 const crear = async (cliente) => {
@@ -6,10 +7,31 @@ const crear = async (cliente) => {
     const pool = await poolConnect;
 
     const result = await pool.request()
-        .input('nombre', sql.VarChar(100), cliente.nombre)
-        .input('nit', sql.VarChar(20), cliente.nit || null)
-        .input('telefono', sql.VarChar(20), cliente.telefono || null)
-        .input('email', sql.VarChar(100), cliente.email || null)
+        .input(
+            'nombre',
+            sql.VarChar(100),
+            cliente.nombre
+        )
+        .input(
+            'nit',
+            sql.VarChar(20),
+            cliente.nit || null
+        )
+        .input(
+            'telefono',
+            sql.VarChar(20),
+            cliente.telefono || null
+        )
+        .input(
+            'email',
+            sql.VarChar(100),
+            cliente.email || null
+        )
+        .input(
+            'password_hash',
+            sql.VarChar(255),
+            cliente.password_hash
+        )
         .execute('sp_cliente_crear');
 
     return result.recordset[0];
@@ -32,8 +54,28 @@ const obtenerPorId = async (id_cliente) => {
     const pool = await poolConnect;
 
     const result = await pool.request()
-        .input('id_cliente', sql.Int, id_cliente)
+        .input(
+            'id_cliente',
+            sql.Int,
+            id_cliente
+        )
         .execute('sp_cliente_obtener_por_id');
+
+    return result.recordset[0] || null;
+};
+
+
+const obtenerPorEmail = async (email) => {
+
+    const pool = await poolConnect;
+
+    const result = await pool.request()
+        .input(
+            'email',
+            sql.VarChar(100),
+            email
+        )
+        .execute('sp_cliente_login');
 
     return result.recordset[0] || null;
 };
@@ -44,12 +86,36 @@ const actualizar = async (id_cliente, cliente) => {
     const pool = await poolConnect;
 
     const result = await pool.request()
-        .input('id_cliente', sql.Int, id_cliente)
-        .input('nombre', sql.VarChar(100), cliente.nombre)
-        .input('nit', sql.VarChar(20), cliente.nit || null)
-        .input('telefono', sql.VarChar(20), cliente.telefono || null)
-        .input('email', sql.VarChar(100), cliente.email || null)
-        .input('activo', sql.Bit, cliente.activo)
+        .input(
+            'id_cliente',
+            sql.Int,
+            id_cliente
+        )
+        .input(
+            'nombre',
+            sql.VarChar(100),
+            cliente.nombre
+        )
+        .input(
+            'nit',
+            sql.VarChar(20),
+            cliente.nit || null
+        )
+        .input(
+            'telefono',
+            sql.VarChar(20),
+            cliente.telefono || null
+        )
+        .input(
+            'email',
+            sql.VarChar(100),
+            cliente.email || null
+        )
+        .input(
+            'activo',
+            sql.Bit,
+            cliente.activo
+        )
         .execute('sp_cliente_actualizar');
 
     return result.recordset[0];
@@ -61,7 +127,11 @@ const eliminar = async (id_cliente) => {
     const pool = await poolConnect;
 
     const result = await pool.request()
-        .input('id_cliente', sql.Int, id_cliente)
+        .input(
+            'id_cliente',
+            sql.Int,
+            id_cliente
+        )
         .execute('sp_cliente_eliminar');
 
     return result.recordset[0];
@@ -72,6 +142,7 @@ module.exports = {
     crear,
     obtenerTodos,
     obtenerPorId,
+    obtenerPorEmail,
     actualizar,
     eliminar
 };
